@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style/style.css">
+</head>
+<script src="js/script.js"></script>
+<body>
+    <header>
+        <h1>CALCULADORA ONLINE</h1>
+        <hr>
+    </header>
+    <section id="calculadora">
+        <div id="display">
+            <p id="pDisplay">
+            </p>
+        </div>
+        <div id="botoes">
+            <table>
+                <tr>
+                    <td><input onclick="limpar()" type="button" class="divisao1" value="C"></td>
+                    <td><input onclick="mudarSinal(value)" type="button" class="divisao1" value="+/-"></td>
+                    <td><input onclick="porcentagem(value)" type="button" class="divisao1" value="%"></td>
+                    <td><input onclick="salvarOperacao(value)" type="button" class="divisao3" value="÷"></td>
+                </tr>
+                <tr>
+                    <td><input onclick="salvarOperacao(value)" type="button" class="divisao2" value="7"></td>
+                    <td><input onclick="salvarOperacao(value)" type="button" class="divisao2" value="8"></td>
+                    <td><input onclick="salvarOperacao(value)" type="button" class="divisao2" value="9"></td>
+                    <td><input onclick="salvarOperacao(value)" type="button" class="divisao3" value="×"></td>
+                </tr>
+                <tr>
+                    <td><input onclick="salvarOperacao(value)" type="button" class="divisao2" value="4"></td>
+                    <td><input onclick="salvarOperacao(value)" type="button" class="divisao2" value="5"></td>
+                    <td><input onclick="salvarOperacao(value)" type="button" class="divisao2" value="6"></td>
+                    <td><input onclick="salvarOperacao(value)" type="button" class="divisao3" value="-"></td>
+                </tr>
+                <tr>
+                    <td><input onclick="salvarOperacao(value)" type="button" class="divisao2" value="1"></td>
+                    <td><input onclick="salvarOperacao(value)" type="button" class="divisao2" value="2"></td>
+                    <td><input onclick="salvarOperacao(value)" type="button" class="divisao2" value="3"></td>
+                    <td><input onclick="salvarOperacao(value)" type="button" class="divisao3" value="+"></td>
+                </tr>
+                <tr>
+                    <td colspan="2"><input onclick="salvarOperacao(value)" type="button" class="divisao2" value="0" style="width: 170px; border-radius: 30px;"></td>
+                    <td><input onclick="salvarOperacao(value)" type="button" class="divisao2" value=","></td>
+                    <td><input onclick="calcular()" type="button" class="divisao3" value="=" onclick="calcular('=')"></td>
+                </tr>
+            </table>
+        </div>
+    </section>
+    <footer>
+        <p>
+            &copy; Programmed by <a href="https://github.com/Diego-goes" target="_blank">Diego Góes</a>
+        </p>
+    </footer>
+</body>
+</html>
