@@ -28,10 +28,10 @@ header hr {
     border-radius: 30px;
 }
 #display{
-    border-top-right-radius:20px;
-    border-top-left-radius:20px;
+    border-radius: 10px;
     margin: auto;
-    background-color: #0e0a09;
+    margin-bottom: 20px;
+    background-color: #1b1817;
     width: 380px;
     height: 150px;
     color: white;
