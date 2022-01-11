@@ -30,29 +30,17 @@ function separarOperacao() {
     //se deve retirar esse sinal da operação.
     let operacaoSplit = operacao.split(``);
     if (operacao.startsWith(`-`)) {
-        console.log(`Começa NEGATIVO`)
-        let operacaoSplit2 = [...operacao];
-        operacaoSplit2[0] = ``;
-        operador = operacaoSplit2.find((char) => {
-            for (let i in operadores) {
-                if (char == operadores[i]) {
-                    return operadores[i];
-                }
-            }
-        });
-    } else {
-        console.log(`Começa POSITIVO`)
-        operador = operacaoSplit.find((char) => {
-            for (let i in operadores) {
-                if (char == operadores[i]) {
-                    return operadores[i];
-                }
-            }
-        });
+        operacaoSplit.shift();
     }
-    console.log(`operador: ${operador}`)
+    operador = operacaoSplit.find((char) => {
+        for (let i in operadores) {
+            if (char == operadores[i]) {
+                return operadores[i];
+            }
+        }
+    });
+
     // Achar o n1 e n2
-    console.log(`operacao: ${operacao} | operacaoSplit: ${operacaoSplit}`)
     console.log(`operacao.indexOf(operador): ${operacao.indexOf(operador, 1)}`)
     for (let i in operacao) {
         if (i < operacao.indexOf(operador, 1)) {
@@ -89,6 +77,9 @@ function mudarSinal() {
     pDisplay.innerHTML = `${operacao}`;
 }
 function porcentagem() {
+    operacao = (Number(operacao)/100).toString();
+    let pDisplay = document.getElementById(`pDisplay`);
+    pDisplay.innerHTML = `${operacao}`;
 }
 function limpar() {
     let pDisplay = document.getElementById(`pDisplay`);
@@ -97,9 +88,6 @@ function limpar() {
 }
 function calcular() {
     // Parte que calcula
-    //n1 = 8;
-    //operador = `-`;
-    //n2 = 9;
     separarOperacao();
     console.log(`n1: ${n1} | operador: ${operador} | n2: ${n2}`)
     switch (operador) {
@@ -120,6 +108,9 @@ function calcular() {
             console.log(`resultado = (n1 + n2) | ${resultado} = (${n1} + ${n2})`)
             break;
     }
+    let casasDecimais = 0;
+    // resultado == 0,001
+    console.log(`resultado: ${resultado} | fixed: ${resultado.toFixed(casasDecimais)}`)
     resultado = resultado.toString()
     operacao = resultado;
     if (resultado.indexOf(`.`) != -1) {
