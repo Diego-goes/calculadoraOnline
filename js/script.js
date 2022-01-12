@@ -25,6 +25,7 @@ function salvarOperacao(char) {
     } else {
         // Parte de exibição
         let pDisplay = document.getElementById(`pDisplay`);
+        console.log(`ERA PARA TER TROCADO DE CORRRRRR!`)
         pDisplay.style.color = `orange`;
         for (let i in operadores) {
             if (char == operadores[i]) {
