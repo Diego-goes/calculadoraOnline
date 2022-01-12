@@ -13,18 +13,47 @@ let n1 = ``;
 let operador;
 let n2 = ``;
 let resultado;
+let limitadorAns = ``;
+let operadores = [`÷`, `×`, `-`, `+`];
 function salvarOperacao(char) {
     // Parte que salva a operação
     operacao += char;
-    // Parte de exibição
-    let pDisplay = document.getElementById(`pDisplay`);
-    pDisplay.style.color = `orange`;
-    pDisplay.innerHTML += `${char}`;
+    console.log(`char: ${char} | operacao: ${operacao}`)
+    if (operacao.startsWith(`,`) || operacao.startsWith(`÷`) || operacao.startsWith(`×`)) {
+        operacao = operacao.replace(char, "");
+        console.log(`char: ${char} | operacao: ${operacao}`)
+    } else {
+        // Parte de exibição
+        let pDisplay = document.getElementById(`pDisplay`);
+        pDisplay.style.color = `orange`;
+        for (let i in operadores) {
+            if (char == operadores[i]) {
+                limitadorAns += operacao.split(``).filter((op) => {
+                    console.log(`op: ${op} | operadores[i] | bollean: ${op == operadores[i]}`)
+                    if (op == operadores[i]) {
+                        return operadores[i]
+                    }
+                });
+                operacao = operacao.toString();
+                console.log(`limitadorAns: ${limitadorAns}`)
+                if (limitadorAns.length >= 2) {
+                    limitadorAns = limitadorAns[1];
+                    console.log(`Hora de calcular o ANS`)
+                    let operador2 = operacao.split(``).pop();
+                    operacao = operacao.substring(0, operacao.length - 1);
+                    console.log(`operacao: ${operacao}`)
+                    calcular();
+                    operacao = operacao.concat(operador2);
+                    return pDisplay.innerHTML += `${char}`;
+                }
+            }
+        }
+        pDisplay.innerHTML += `${char}`;
+        console.log(`char: ${char} | operacao: ${operacao}`)
+    }
 }
 function separarOperacao() {
     // Possiveis operadores
-    let operadores = [`÷`, `×`, `-`, `+`];
-
     // Achar qual é o operador da operação matemática.
     // As vezes a operação podem começar com o sinal negativo, por isso
     //se deve retirar esse sinal da operação.
@@ -77,7 +106,7 @@ function mudarSinal() {
     pDisplay.innerHTML = `${operacao}`;
 }
 function porcentagem() {
-    operacao = (Number(operacao)/100).toString();
+    operacao = (Number(operacao) / 100).toString();
     let pDisplay = document.getElementById(`pDisplay`);
     pDisplay.innerHTML = `${operacao}`;
 }
@@ -85,6 +114,7 @@ function limpar() {
     let pDisplay = document.getElementById(`pDisplay`);
     pDisplay.innerHTML = ``;
     operacao = ``;
+    console.clear();
 }
 function calcular() {
     // Parte que calcula
@@ -108,9 +138,6 @@ function calcular() {
             console.log(`resultado = (n1 + n2) | ${resultado} = (${n1} + ${n2})`)
             break;
     }
-    let casasDecimais = 0;
-    // resultado == 0,001
-    console.log(`resultado: ${resultado} | fixed: ${resultado.toFixed(casasDecimais)}`)
     resultado = resultado.toString()
     operacao = resultado;
     if (resultado.indexOf(`.`) != -1) {
@@ -121,7 +148,10 @@ function calcular() {
     pDisplay.style.color = `white`;
     pDisplay.innerHTML = resultado;
     // Zerar operacao
+    //operacao = resultado;
+    //limitadorAns = 0;
     n1 = ``;
     operador = ``;
     n2 = ``;
+    console.log(`-------------`)
 }
