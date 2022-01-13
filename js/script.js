@@ -16,7 +16,7 @@ let resultado = ``;
 let limitadorAns = ``;
 let operadores = [`÷`, `×`, `-`, `+`];
 
-
+// Exibe as mensagens no display com a cor especificada.
 function exibirDisplay(msg, cor, concat) {
     let pDisplay = document.getElementById(`pDisplay`);
     pDisplay.style.color = `${cor}`;
@@ -27,12 +27,34 @@ function exibirDisplay(msg, cor, concat) {
     }
 }
 
+// Verifíca se um caractere é um operador
+function isOperador(caractere) {
+    let operadores = [`÷`, `×`, `-`, `+`];
+    let validacao = false;
+    for (let i in operadores) {
+        if (caractere == operadores[i]) {
+            console.log(`caractere: ${caractere} | operadores[i]: ${operadores[i]}`)
+            console.log(`Com operador...`)
+            validacao = true;
+            return validacao;
+        }
+    }
+    console.log(`Sem operador!!!`)
+    return validacao;
+}
+
 function salvarExpressao(char) {
     /*
     Tendo um expressao anterior, caso uma nova seja gerada, sendo ela inicialmente composta por um número, a expressão
     deve ser zerada e o novo numero adiocionado a ela. Caso inicialmente seja composta por um operador matematico
     ela deve manter a expressão com o resultado anterior e proseguir a a expressao.
     */
+
+    // Faz a formatação do input
+    pDisplay = document.getElementById(`pDisplay`);
+    if (pDisplay.value == `0` && !isOperador(char)) {
+        exibirDisplay(``, `orange`, false);
+    }
 
     // Parte que salva a operação
     expressao += char;
@@ -122,7 +144,7 @@ function mudarSinal() {
         console.log(`MUDANÇA DE SINAL POSITIVO | n1: ${n1} | expressao: ${expressao}`);
     }
     expressao = expressao.replace(`.`, `,`);
-    exibirDisplay(expressao,`orange`, false);
+    exibirDisplay(expressao, `orange`, false);
 }
 function porcentagem() {
     // Formata, faz o calculo de um numero divido por cem, e salva em 'numero'.
@@ -131,17 +153,17 @@ function porcentagem() {
     // Valida se o valor é valido (apenas 1 numero), para efetuar a operação
     if (numero == 'NaN') {
         // Exibe uma mensagem de erro no display durante 1 segundo.
-        exibirDisplay(`Erro!`,`white`, false);
+        exibirDisplay(`Erro!`, `white`, false);
 
         // Volta ao valor original do display
         setTimeout(() => {
-            exibirDisplay(expressao,`orange`,false);
+            exibirDisplay(expressao, `orange`, false);
         }, 500)
     } else {
         numero = numero.toString().replace(`.`, `,`);
         expressao = numero;
         resultado = expressao;
-        exibirDisplay(resultado,`orange`,false);
+        exibirDisplay(resultado, `orange`, false);
     }
     console.log(`expressao: ${expressao}`);
     console.log(`resultado: ${resultado}`);
@@ -149,7 +171,7 @@ function porcentagem() {
 }
 
 function limpar() {
-    exibirDisplay(``);
+    exibirDisplay(`0`);
     expressao = [];
     operador = ``;
     resultado = ``;
@@ -190,7 +212,14 @@ function calcular() {
         resultado = resultado.replace(`.`, `,`);
     }
     // Parte de exibição
-    exibirDisplay(resultado,`white`,false);
+    if (resultado == 'NaN') {
+        exibirDisplay(`Erro!`, `white`, false);
+        setTimeout(() => {
+            limpar();
+        }, 500);
+    } else {
+        exibirDisplay(resultado, `white`, false);
+    }
 
     // Zerar variaveis para a próxima expressao
     n1 = ``;
