@@ -1,12 +1,4 @@
-// - - - - - Salvar caractere pressionado - - - - - // Done
-// - - - - - Diferenciar caractere de operação - - - - - // Done
-// - - - - - Juntar caracteres separados - - - - - // Done
-// - - - - - Criar 2 variáveis para os numeros - - - - - // Done
 
-// - - - - - Difenrenciar o 1º do 2º numero - - - - - // Done
-// L> A diferença é que o segundo é todo numero a partir do operador.
-
-// - - - - - Criar um 'ans' quando um 2º operador for pressionado - - - - - //
 
 let expressao = [];
 let n1 = ``;
