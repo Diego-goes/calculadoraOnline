@@ -16,13 +16,14 @@ let resultado = ``;
 let limitadorAns = ``;
 let operadores = [`÷`, `×`, `-`, `+`];
 
+
 function exibirDisplay(msg, cor, concat) {
     let pDisplay = document.getElementById(`pDisplay`);
     pDisplay.style.color = `${cor}`;
     if (concat == true) {
-        pDisplay.innerHTML += `${msg}`;
+        pDisplay.value += `${msg}`;
     } else {
-        pDisplay.innerHTML = `${msg}`;
+        pDisplay.value = `${msg}`;
     }
 }
 
