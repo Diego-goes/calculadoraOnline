@@ -14,7 +14,6 @@ header{
     color: white;
     font-weight: bolder;
     margin-bottom: 80px;
-    
     box-shadow: 0px 15px 5px rgba(0, 0, 0, 0.103),
     0px 25px 20px rgba(0, 0, 0, 0.541);
     background-image: linear-gradient(#ffffff00,#a37a4cc4);
@@ -74,6 +73,12 @@ header hr {
     border-radius: 100%;
     margin: 5px;
     box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.250);
+    cursor: pointer;
+    transition: border 1s;
+}
+#botoes input:hover{
+    content: '';
+    border: solid white;
 }
 .divisao1{
     background-image: linear-gradient(#bebdbd,#707070,#535353);
