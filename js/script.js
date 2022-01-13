@@ -1,12 +1,26 @@
+// - - - - - Salvar caractere pressionado - - - - - // Done
+// - - - - - Diferenciar caractere de operação - - - - - // Done
+// - - - - - Juntar caracteres separados - - - - - // Done
+// - - - - - Criar 2 variáveis para os numeros - - - - - // Done
+
+// - - - - - Difenrenciar o 1º do 2º numero - - - - - // Done
+// L> A diferença é que o segundo é todo numero a partir do operador.
+
+// - - - - - Criar um 'ans' quando um 2º operador for pressionado - - - - - //
 
 
-let expressao = [];
+let expressao = ``;
 let n1 = ``;
 let operador;
 let n2 = ``;
 let resultado = ``;
 let limitadorAns = ``;
 let operadores = [`÷`, `×`, `-`, `+`];
+
+function loadCalc(){
+    pDisplay = document.getElementById(`pDisplay`);
+    pDisplay.focus();
+}
 
 // Exibe as mensagens no display com a cor especificada.
 function exibirDisplay(msg, cor, concat) {
@@ -18,23 +32,24 @@ function exibirDisplay(msg, cor, concat) {
         pDisplay.value = `${msg}`;
     }
 }
-
 // Verifíca se um caractere é um operador
 function isOperador(caractere) {
     let operadores = [`÷`, `×`, `-`, `+`];
     let validacao = false;
     for (let i in operadores) {
         if (caractere == operadores[i]) {
-            console.log(`caractere: ${caractere} | operadores[i]: ${operadores[i]}`)
-            console.log(`Com operador...`)
+            console.log(`É operador!`)
             validacao = true;
             return validacao;
         }
     }
-    console.log(`Sem operador!!!`)
+    console.log(`Não é operador!`)
     return validacao;
 }
-
+function salvarValorInput(value){
+    exibirDisplay(value, `orange`, false);
+    expressao = value;
+}
 function salvarExpressao(char) {
     /*
     Tendo um expressao anterior, caso uma nova seja gerada, sendo ela inicialmente composta por um número, a expressão
@@ -43,54 +58,57 @@ function salvarExpressao(char) {
     */
 
     // Faz a formatação do input
-    pDisplay = document.getElementById(`pDisplay`);
-    if (pDisplay.value == `0` && !isOperador(char)) {
+    if (expressao == `0` && !isOperador(char)) {
         exibirDisplay(``, `orange`, false);
+        expressao = ``;
     }
 
     // Parte que salva a operação
+    console.log(`expressao: ${expressao}`);
     expressao += char;
+    console.log(`expressao: ${expressao}`);
 
     // Validar expressão quando o primeiro char não é um número.
     if (expressao.startsWith(`,`) || expressao.startsWith(`÷`) || expressao.startsWith(`×`) || expressao.startsWith(`+`)) {
-        expressao = [];
+        expressao = ``;
         console.log(`char: ${char} | expressao: ${expressao}`)
-        console.log(`Resultado-Anterior: ${resultado}`);
     } else {
         // Verificar calculo ANS, que seria o de multiplas expressões de uma vez.
-        for (let i in operadores) {
-            if (char == operadores[i]) {
+        if (isOperador(char)) {
 
-                // Indentifica todos os operadores da expressão matemática e salva em limitadaorAns
-                for (let j in operadores) {
-                    limitadorAns += expressao.split(``).filter((charExpressao) => {
-                        if (charExpressao == operadores[j]) {
-                            return operadores[j];
-                        }
-                    });
-                }
-
-                // Le a quantidade de operadores no limitador, caso tenha mais de 1, ele efetua o calculo Ans.
-                if (limitadorAns.length >= 2) {
-                    // Limpar o limitador para a próxima expressao
-                    limitadorAns = ``
-
-                    // Efetuar a primeira expressão sem o 2º operador.
-                    let operador2 = expressao.split(``).pop();
-                    expressao = expressao.substring(0, expressao.length - 1);
-                    console.log(`expressao: ${expressao}`)
-
-                    // Adicionar a expressão o resultado com o 2º operador.
-                    calcular();
-                    expressao = expressao.concat(operador2);
-                }
+            // Indentifica todos os operadores da expressão matemática e salva em limitadaorAns
+            for (let j in operadores) {
+                limitadorAns += expressao.split(``).filter((charExpressao) => {
+                    if (charExpressao == operadores[j]) {
+                        return operadores[j];
+                    }
+                });
             }
+
+            // Le a quantidade de operadores no limitador, caso tenha mais de 1, ele efetua o calculo Ans.
+            if (limitadorAns.length >= 2) {
+                // Limpar o limitador para a próxima expressao
+                limitadorAns = ``
+
+                // Efetuar a primeira expressão sem o 2º operador.
+                let operador2 = expressao.split(``).pop();
+                expressao = expressao.substring(0, expressao.length - 1);
+                console.log(`expressao: ${expressao}`)
+
+                // Adicionar a expressão o resultado com o 2º operador.
+                calcular();
+                expressao = expressao.concat(operador2);
+            }
+
         }
         exibirDisplay(char, `orange`, true);
         console.log(`char: ${char} | expressao: ${expressao}`)
     }
 }
 function separarExpressao() {
+    // Pegar expressão
+    pDisplay = document.getElementById(`pDisplay`);
+    expressao = pDisplay.value;
     // Acha o operador da expressão
     let expressaoSplit = expressao.split(``);
     // caso o primeiro nº seja negativo, ele se torna positivo para achar o próximo operador.
@@ -161,12 +179,12 @@ function porcentagem() {
     console.log(`resultado: ${resultado}`);
     console.log(`operador: ${operador}`)
 }
-
 function limpar() {
-    exibirDisplay(`0`);
-    expressao = [];
+    expressao = ``;
+    exibirDisplay(expressao);
     operador = ``;
-    resultado = ``;
+    resultado = `0`;
+    loadCalc();
     console.clear();
     console.log(`Resultado: ${resultado}`);
     console.log(`Expressao: ${expressao}`);

@@ -10,14 +10,14 @@
 </head>
 <script src="js/script.js"></script>
 
-<body>
+<body onload="loadCalc()">
     <header>
         <h1>CALCULADORA ONLINE</h1>
         <hr>
     </header>
     <section id="calculadora">
         <div id="display">
-            <input id="pDisplay" type="text" value="0">
+            <input id="pDisplay" type="text" oninput="salvarValorInput(value)">
         </div>
         <div id="botoes">
             <table>
