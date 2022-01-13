@@ -74,7 +74,7 @@ header hr {
     margin: 5px;
     box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.250);
     cursor: pointer;
-    transition: border 1s;
+    transition: border 0.7s;
 }
 #botoes input:hover{
     content: '';
