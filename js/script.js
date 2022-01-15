@@ -32,6 +32,9 @@ function exibirDisplay(msg, cor, concat) {
         pDisplay.value = `${msg}`;
     }
 }
+function arredondar(num) {
+    return (parseFloat(num.toPrecision(12)));
+}
 function criarPlaceholder(msg) {
     let pDisplay = document.getElementById(`pDisplay`);
     pDisplay.setAttribute(`placeholder`, `${msg}`);
@@ -115,7 +118,9 @@ function salvarExpressao(char) {
             }
 
             // Le a quantidade de operadores no limitador, caso tenha mais de 1, ele efetua o calculo Ans.
-            if (limitadorAns.length >= 2) {
+            let limite;
+            expressao.startsWith(`-`) ? limite = 3 : limite = 2;
+            if (limitadorAns.length >= limite) {
                 // Limpar o limitador para a próxima expressao
                 limitadorAns = ``
 
@@ -164,12 +169,12 @@ function separarExpressao() {
     }
 
     // Corrigir formato de decimais para efetuar as operações.
-    if (n1.indexOf(`,`) != -1) {
+    if (n1.toString().indexOf(`,`) != -1) {
         n1 = Number(n1.replace(`,`, `.`));
     } else {
         n1 = Number(n1);
     }
-    if (n2.indexOf(`,`) != -1) {
+    if (n2.toString().indexOf(`,`) != -1) {
         n2 = Number(n2.replace(`,`, `.`));
     } else {
         n2 = Number(n2);
@@ -250,21 +255,24 @@ function calcular() {
             break;
     }
     console.log(`Expressao: ${expressao}`);
-    console.log(`Resultado: ${resultado}`)
+    console.log(`Resultado: ${resultado}`);
     // Formatar saída de nº decimais
-    resultado = parseFloat(resultado.toPrecision(12)).toString();
+    resultado = arredondar(Number(resultado)).toString();
+    //resultado = resultado.toString();
     expressao = resultado;
     if (resultado.indexOf(`.`) != -1) {
         resultado = resultado.replace(`.`, `,`);
+        expressao = resultado;
     }
+    console.log(`Expressao: ${expressao}`);
+    console.log(`Resultado: ${resultado}`);
     // Parte de exibição
     if (resultado == 'NaN') {
         exibirDisplay(`Erro!`, `white`, false);
         setTimeout(() => {
-            //limpar();
+            limpar();
         }, 500);
     } else {
-        console.log(`Expressao: ${expressao}`)
         criarPlaceholder(expressao);
         exibirDisplay(`${expressao}`, `white`, false);
     }
@@ -273,6 +281,5 @@ function calcular() {
     n1 = ``;
     operador = ``;
     n2 = ``;
-    console.log(`ResultadoOOO: ${resultado}`);
     console.log(`- - - - - Saindo do calcular - - - - -`);
 }
