@@ -72,7 +72,6 @@ function salvarExpressao(char) {
 
     // Achar o operador para achar o n1
     operador = temOperador(expressao)[1];
-    console.log(`expressao: ${expressao}`);
 
     // Parte que salva a operação
     console.log(`expressao: ${expressao}`);
@@ -91,7 +90,6 @@ function salvarExpressao(char) {
         console.log(`Não executei a substituição!`);
     }
 
-    console.log(`expressao: ${expressao}`);
     // Faz a formatação do input
     if (expressao == `0` && !temOperador(char)) {
         exibirDisplay(``, `orange`, false);
@@ -103,13 +101,11 @@ function salvarExpressao(char) {
     // Validar expressão quando o primeiro char não é um número.
     if (expressao.startsWith(`,`) || expressao.startsWith(`÷`) || expressao.startsWith(`×`) || expressao.startsWith(`+`)) {
         expressao = ``;
-        console.log(`char: ${char} | expressao: ${expressao}`)
     } else {
         // Verificar calculo ANS, que seria o de multiplas expressões de uma vez.
         if (temOperador(char)) {
 
             // Indentifica todos os operadores da expressão matemática e salva em limitadaorAns
-            console.log(`limitadorAns: ${limitadorAns}`);
             for (let j in operadores) {
                 limitadorAns += expressao.split(``).filter((charExpressao) => {
                     if (charExpressao == operadores[j]) {
@@ -119,7 +115,6 @@ function salvarExpressao(char) {
             }
 
             // Le a quantidade de operadores no limitador, caso tenha mais de 1, ele efetua o calculo Ans.
-            console.log(`limitadorAns: ${limitadorAns}`);
             if (limitadorAns.length >= 2) {
                 // Limpar o limitador para a próxima expressao
                 limitadorAns = ``
@@ -129,7 +124,6 @@ function salvarExpressao(char) {
                 expressao = expressao.substring(0, expressao.length - 1);
 
                 // Adicionar a expressão o resultado com o 2º operador.
-                console.log(`Expressap: ${expressao}`);
                 console.log(`HORA DE CALCULAR!`);
                 calcular();
                 expressao = expressao.concat(operador2);
@@ -139,13 +133,13 @@ function salvarExpressao(char) {
         }
         exibirDisplay(char, `orange`, true);
         console.log(`char: ${char} | expressao: ${expressao}`)
-        console.log(`- - - - - Saindo do salvarExpressao - - - - -`)
+        console.log(`- - - - - Saindo do salvarExpressao - - - - -`);
     }
 }
 function separarExpressao() {
-    // Pegar expressão
-    pDisplay = document.getElementById(`pDisplay`);
-    expressao = pDisplay.value;
+    // // Pegar expressão
+    // pDisplay = document.getElementById(`pDisplay`);
+    // expressao = pDisplay.value;
     // Acha o operador da expressão
     let expressaoSplit = expressao.split(``);
     // caso o primeiro nº seja negativo, ele se torna positivo para achar o próximo operador.
@@ -163,9 +157,9 @@ function separarExpressao() {
     // Achar o n1 e n2
     for (let i in expressao) {
         if (i < expressao.indexOf(operador, 1)) {
-            n1 += Number(expressao[i]);
+            n1 += expressao[i];
         } else if (i > expressao.indexOf(operador, 1)) {
-            n2 += Number(expressao[i]);
+            n2 += expressao[i];
         }
     }
 
@@ -258,7 +252,7 @@ function calcular() {
     console.log(`Expressao: ${expressao}`);
     console.log(`Resultado: ${resultado}`)
     // Formatar saída de nº decimais
-    resultado = resultado.toString();
+    resultado = parseFloat(resultado.toPrecision(12)).toString();
     expressao = resultado;
     if (resultado.indexOf(`.`) != -1) {
         resultado = resultado.replace(`.`, `,`);
@@ -280,5 +274,5 @@ function calcular() {
     operador = ``;
     n2 = ``;
     console.log(`ResultadoOOO: ${resultado}`);
-    console.log(`-------------`)
+    console.log(`- - - - - Saindo do calcular - - - - -`);
 }
