@@ -56,6 +56,9 @@ header hr {
     text-align: right;
     color: white;
 }
+::-webkit-input-placeholder{
+    color: rgb(255, 255, 255);
+}
 #botoes{    
     border-bottom-right-radius:20px;
     border-bottom-left-radius:20px;
