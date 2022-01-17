@@ -333,7 +333,7 @@ function calcular() {
     console.log(`Resultado: ${resultado}`);
     // Parte de exibição
     if (resultado == 'NaN') {
-        //exibirErro(`Calculo inválido!`, `32pt`)
+        exibirErro(`Calculo inválido!`, `32pt`)
     } else {
         exibirDisplay(`${expressao}`, `white`, false);
     }
