@@ -53,10 +53,6 @@ function exibirDisplay(msg, cor, concat) {
 function arredondar(num) {
     return (parseFloat(num.toPrecision(12)));
 }
-function criarPlaceholder(msg) {
-    let pDisplay = document.getElementById(`pDisplay`);
-    pDisplay.setAttribute(`placeholder`, `${msg}`);
-}
 // Verifíca se um array tem um operador e qual é.
 function temOperador(string) {
     let operadores = [`÷`, `×`, `-`, `+`];
@@ -64,7 +60,6 @@ function temOperador(string) {
     let op;
 
     // Caso o nº seja negativo, tirar o '-' para achar o primeiro operador.
-    // console.log(`string: ${string}`);
     if (string.startsWith(`-`) && string.length != 1) {
         string = string.split(``);
         // console.log(`string: ${string}`);
@@ -73,23 +68,15 @@ function temOperador(string) {
         string = string.join(``);
         // console.log(`string: ${string}`);
     }
-    // console.log(`string: ${string}`);
     for (let i in string) {
         for (let j in operadores) {
-            // console.log(`string[i]: ${string[i]} | operadores[j]: ${operadores[j]}`);
-            // console.log(`string[i] == operadores[j]: ${string[i] == operadores[j]}`);
             if (string[i] == operadores[j]) {
                 op = operadores[j];
-                // console.log(`string: ${string}`);
-                // console.log(`string[i]: ${string[i]} | operadores[j]: ${operadores[j]}`);
-                // console.log(`op: ${op}`)
                 validacao = true;
-                // console.log(`validacao: ${validacao} | op: ${op}`);
                 return [validacao, op];
             }
         }
     }
-    // console.log(`op: ${op}`)
     return [validacao];
 }
 function salvarValorInput(value) {
@@ -119,7 +106,7 @@ function salvarExpressao(char) {
     console.log(`operador: ${operador}`);
 
     // Se o resultado não tem operador, e for diferente de ``, substituí-lo por uma nova expressao
-    if (temOperador(expressao)[0] == false && resultado != ``) {
+    if (temOperador(expressao)[0] == false && resultado != `` && expressao[1] != `,`) {
         expressao = `${char}`;
         resultado = ``;
         exibirDisplay(``);
@@ -127,15 +114,14 @@ function salvarExpressao(char) {
     } else {
         // console.log(`Não executei a substituição!`);
     }
-
     // Faz a formatação do input
     if (expressao == `0` && !temOperador(char)) {
         exibirDisplay(``, `orange`, false);
         expressao = ``;
     }
-
+    
     // Validar expressão quando o primeiro char for um número.
-    if (expressao.startsWith(`,`) || expressao.startsWith(`÷`) || expressao.startsWith(`×`) || expressao.startsWith(`+`)) {
+    if (temOperador(expressao[0])[0]) {
         expressao = ``;
     } else {
         // Verificar calculo ANS, que seria o de multiplos operadores em uma unica expressao.
@@ -304,11 +290,10 @@ function porcentagem() {
     console.log(`operador: ${operador}`)
 }
 function limpar() {
-    expressao = ``;
-    exibirDisplay(``);
-    criarPlaceholder(`0`);
+    expressao = `0`;
+    exibirDisplay(expressao);
     operador = ``;
-    resultado = ``;
+    resultado = expressao;
     loadCalc();
     console.clear();
     console.log(`Resultado: ${resultado}`);
@@ -352,12 +337,16 @@ function calcular() {
     console.log(`Resultado: ${resultado}`);
     // Parte de exibição
     if (resultado == 'NaN') {
-        exibirDisplay(`Erro!`, `white`, false);
+        let pDisplay = document.getElementById(`pDisplay`);
+        pDisplay.style.fontSize = `32pt`;
+        pDisplay.style.textAlign = `center`;
+        exibirDisplay(`Calculo inválido!`, `white`, false);
         setTimeout(() => {
-            // limpar();
-        }, 500);
+            pDisplay.style.fontSize = `45pt`;
+            pDisplay.style.textAlign = `right`;
+            limpar();
+        }, 1000);
     } else {
-        criarPlaceholder(expressao);
         exibirDisplay(`${expressao}`, `white`, false);
     }
 
