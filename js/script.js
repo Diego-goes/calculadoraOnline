@@ -45,8 +45,11 @@ function acessoMobile() {
 
 function loadCalc() {
     pDisplay = document.getElementById(`pDisplay`);
-    if (acessoMobile) {
+    if (acessoMobile() == false) {
         pDisplay.focus();
+    } else {
+        let header = document.getElementById(`header`);
+        header.style.display = `none`
     }
 }
 
