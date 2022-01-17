@@ -62,39 +62,32 @@ function temOperador(array) {
     let operadores = [`÷`, `×`, `-`, `+`];
     let validacao = false;
     let op;
-    let op1 = array[array.length - 1];
-    console.log(`array: ${array}`);
-    for (let i in operadores) {
-        for (let j in array) {
-            if (array[j] == operadores[i]) {
-                console.log(`array[j]: ${array[j]} | operadores[i]: ${operadores[i]}`)
+
+    // Caso o nº seja negativo, tirar o '-' para achar o primeiro operador.
+    // console.log(`array: ${array}`);
+    if (array.startsWith(`-`)) {
+        array = array.split(``);
+        // console.log(`array: ${array}`);
+        array.shift();
+        // console.log(`array: ${array}`);
+        array = array.join(``);
+        // console.log(`array: ${array}`);
+    }
+
+    for (let i in array) {
+        for (let j in operadores) {
+            if (array[i] == operadores[j]) {
+                op = operadores[j];
+                // console.log(`array: ${array}`);
+                // console.log(`array[i]: ${array[i]} | operadores[j]: ${operadores[j]}`);
+                // console.log(`op: ${op}`)
                 validacao = true;
-                op = operadores[i];
-                if (array.indexOf(op) < array.indexOf(op1)){
-                    console.log(`op: ${op} < op1: ${op1}`);
-                    op1 = op;
-                }
+                return [validacao, op];
             }
         }
     }
-
-    // if (array != undefined && !array.startsWith(`-`)) {
-    //     array = array.split(``);
-    //     array.splice(array.indexOf(op), 1);
-    //     array = array.join(``);
-    // }
-
-    // for (let i in operadores) {
-    //     for (let j in array) {
-    //         if (array[j] == operadores[i]) {
-    //             console.log(`array[j]: ${array[j]} | operadores[i]: ${operadores[i]}`)
-    //             validacao = true;
-    //             op = operadores[i];
-    //         }
-    //     }
-    // }
-    // console.log(`Não é operador!`)
-    return [validacao, op1];
+    // console.log(`op: ${op}`)
+    return [validacao];
 }
 function salvarValorInput(value) {
     exibirDisplay(value, `orange`, false);
@@ -207,16 +200,28 @@ function salvarExpressao(char) {
                     // Limpar o limitador para a próxima expressao
                     limitadorAns = ``
                     console.log(`expressao: ${expressao}`);
+                    if (expressao.startsWith(`-`)) {
+                        // Efetuar a primeira expressão sem o 2º operador.
+                        let operador2 = expressao.split(``).pop();
+                        console.log(`expressao: ${expressao}`);
+                        expressao = expressao.substring(0, expressao.length - 1);
+                        console.log(`expressao: ${expressao}`);
 
-                    // Efetuar a primeira expressão sem o 2º operador.
-                    let operador2 = expressao.split(``).pop();
-                    expressao = expressao.substring(0, expressao.length - 1);
-                    console.log(`expressao: ${expressao}`);
+                        // Adicionar a expressão o resultado com o 2º operador.
+                        console.log(`HORA DE CALCULAR!`);
+                        calcular();
+                        expressao = expressao.concat(operador2);
+                    } else {
+                        // Efetuar a primeira expressão sem o 2º operador.
+                        let operador2 = expressao.split(``).pop();
+                        expressao = expressao.substring(0, expressao.length - 1);
+                        console.log(`expressao: ${expressao}`);
 
-                    // Adicionar a expressão o resultado com o 2º operador.
-                    console.log(`HORA DE CALCULAR!`);
-                    calcular();
-                    expressao = expressao.concat(operador2);
+                        // Adicionar a expressão o resultado com o 2º operador.
+                        console.log(`HORA DE CALCULAR!`);
+                        calcular();
+                        expressao = expressao.concat(operador2);
+                    }
 
                 } else {
                     limitadorAns = ``;
@@ -371,7 +376,7 @@ function calcular() {
     if (resultado == 'NaN') {
         exibirDisplay(`Erro!`, `white`, false);
         setTimeout(() => {
-            limpar();
+            // limpar();
         }, 500);
     } else {
         criarPlaceholder(expressao);
