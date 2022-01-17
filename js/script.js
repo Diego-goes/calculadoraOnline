@@ -49,7 +49,7 @@ function loadCalc() {
         pDisplay.focus();
     } else {
         let header = document.getElementById(`header`);
-        header.style.display = `none`
+        header.style.visibility = `hidden`
     }
 }
 
