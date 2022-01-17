@@ -58,30 +58,33 @@ function criarPlaceholder(msg) {
     pDisplay.setAttribute(`placeholder`, `${msg}`);
 }
 // Verifíca se um array tem um operador e qual é.
-function temOperador(array) {
+function temOperador(string) {
     let operadores = [`÷`, `×`, `-`, `+`];
     let validacao = false;
     let op;
 
     // Caso o nº seja negativo, tirar o '-' para achar o primeiro operador.
-    // console.log(`array: ${array}`);
-    if (array.startsWith(`-`)) {
-        array = array.split(``);
-        // console.log(`array: ${array}`);
-        array.shift();
-        // console.log(`array: ${array}`);
-        array = array.join(``);
-        // console.log(`array: ${array}`);
+    // console.log(`string: ${string}`);
+    if (string.startsWith(`-`) && string.length != 1) {
+        string = string.split(``);
+        // console.log(`string: ${string}`);
+        string.shift();
+        // console.log(`string: ${string}`);
+        string = string.join(``);
+        // console.log(`string: ${string}`);
     }
-
-    for (let i in array) {
+    // console.log(`string: ${string}`);
+    for (let i in string) {
         for (let j in operadores) {
-            if (array[i] == operadores[j]) {
+            // console.log(`string[i]: ${string[i]} | operadores[j]: ${operadores[j]}`);
+            // console.log(`string[i] == operadores[j]: ${string[i] == operadores[j]}`);
+            if (string[i] == operadores[j]) {
                 op = operadores[j];
-                // console.log(`array: ${array}`);
-                // console.log(`array[i]: ${array[i]} | operadores[j]: ${operadores[j]}`);
+                // console.log(`string: ${string}`);
+                // console.log(`string[i]: ${string[i]} | operadores[j]: ${operadores[j]}`);
                 // console.log(`op: ${op}`)
                 validacao = true;
+                // console.log(`validacao: ${validacao} | op: ${op}`);
                 return [validacao, op];
             }
         }
@@ -113,10 +116,9 @@ function salvarExpressao(char) {
 
     // Achar o operador para achar o n1
     operador = temOperador(expressao)[1];
+    console.log(`operador: ${operador}`);
 
     // Se o resultado não tem operador, e for diferente de ``, substituí-lo por uma nova expressao
-    // console.log(`temOperador(resultado)[0] == false: ${temOperador(expressao)[0] == false}`)
-    // console.log(`resultado != '' : ${resultado != ''}`);
     if (temOperador(expressao)[0] == false && resultado != ``) {
         expressao = `${char}`;
         resultado = ``;
@@ -132,35 +134,11 @@ function salvarExpressao(char) {
         expressao = ``;
     }
 
-    /*
-    // Validar se o usuário digitou dois operadores seguidos
-    // Se tiver um operador logo depois do 1º, retornar erro
-    // console.log(`expressao: ${expressao} | expressao[0]: ${expressao[0]} | operadorRepetido? ${temOperador(expressao[expressao.indexOf(operador) + 1])[0]}`)
-    console.log(`indexOperador: ${expressao.indexOf(operador)} | operador: ${operador}`);
-    // console.log(`operador == undefined? ${operador == undefined}`)
-    if (operador != undefined && (expressao[expressao.indexOf(operador) + 1]) == undefined && temOperador(expressao[expressao.indexOf(operador) + 1])) {
-        console.log(`SEGUIDO!`)
-        // console.log(`expressao: ${expressao}`)
-        // let novoOperador = expressao.split(``).pop();
-        // console.log(`expressao: ${expressao}`);
-        // expressao = expressao.split(``);
-        // expressao.pop();
-        // expressao = expressao.toString();
-        // console.log(`expressao: ${expressao}`);
-        // expressao = expressao.concat(novoOperador);
-        // exibirDisplay(expressao,`orange`, false);
-        // console.log(`expressao: ${expressao} | novoOperador: ${novoOperador}`);
-        //-9-+
-    } else {
-        console.log(`SEGUE O JOGO!`);
-    }
-    */
-
-    // Validar expressão quando o primeiro char não é um número.
+    // Validar expressão quando o primeiro char for um número.
     if (expressao.startsWith(`,`) || expressao.startsWith(`÷`) || expressao.startsWith(`×`) || expressao.startsWith(`+`)) {
         expressao = ``;
     } else {
-        // Verificar calculo ANS, que seria o de multiplas expressões de uma vez.
+        // Verificar calculo ANS, que seria o de multiplos operadores em uma unica expressao.
         if (temOperador(char)[0]) {
             console.log(`limitadorAns: ${limitadorAns} | length: ${limitadorAns.length}`);
             // Indentifica todos os operadores da expressão matemática e salva em limitadaorAns
