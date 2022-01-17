@@ -49,7 +49,9 @@ function loadCalc() {
         pDisplay.focus();
     } else {
         let header = document.getElementById(`header`);
-        header.style.visibility = `hidden`
+        header.style.display = `none`
+        let sectionCalc = document.getElementById(`calculadora`);
+        sectionCalc.style.marginTop = `30px`;
     }
 }
 
