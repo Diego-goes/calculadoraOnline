@@ -204,32 +204,27 @@ function limpar() {
 function calcular() {
     // Parte que calcula
     separarExpressao();
-    console.log(`Operação: (n1: ${n1}) (operador: ${operador}) (n2: ${n2})`)
     switch (operador) {
         case `÷`:
             resultado = (n1 / n2);
-            console.log(`resultado = (n1 / n2) | ${resultado} = (${n1} / ${n2})`)
             break;
         case `×`:
             resultado = (n1 * n2);
-            console.log(`resultado = (n1 * n2) | ${resultado} = (${n1} * ${n2})`)
             break;
         case `-`:
             resultado = (n1 - n2);
-            console.log(`resultado = (n1 - n2) | ${resultado} = (${n1} - ${n2})`)
             break;
         case `+`:
             resultado = (n1 + n2);
-            console.log(`resultado = (n1 + n2) | ${resultado} = (${n1} + ${n2})`)
             break;
         case `%`:
-            console.log(`n1: ${n1} | n2: ${n2}`);
             if (n2 == 0) {
                 resultado = (n1 / 100);
             } else {
                 resultado = ((n1 / 100) * n2);
             }
     }
+    
     // Formatar saída de nº decimais
     resultado = arredondar(Number(resultado)).toString();
     expressao = resultado;
