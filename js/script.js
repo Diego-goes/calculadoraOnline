@@ -15,7 +15,6 @@ let operador;
 let n2 = ``;
 let resultado = ``;
 let limitadorAns = ``;
-let operadores = [`÷`, `×`, `-`, `+`];
 
 function exibirErro(msg, fontSize) {
     let pDisplay = document.getElementById(`pDisplay`);
@@ -133,13 +132,14 @@ function salvarExpressao(char) {
     }
 
     // Validar expressão quando o primeiro char for um número.
-    if (temOperador(expressao[0])[0]) {
+    if (temOperador(expressao[0])[0] && expressao[0] != `-`) {
         expressao = ``;
     } else {
         // Verificar calculo ANS, que seria o de multiplos operadores em uma unica expressao.
         if (temOperador(char)[0]) {
             // Indentifica todos os operadores da expressão matemática e salva em limitadaorAns
             limitadorAns = ``;
+            let operadores = [`÷`, `×`, `-`, `+`,`%`];
             for (let j in operadores) {
                 limitadorAns += expressao.split(``).filter((charExpressao) => {
                     if (charExpressao == operadores[j]) {
@@ -147,7 +147,7 @@ function salvarExpressao(char) {
                     }
                 });
             }
-
+            console.log(`expressao: ${expressao} | limitadorAns: ${limitadorAns}`);
             // Corrigir a vírgula que contava como espaço em length
             limitadorAns = limitadorAns.split(`,`).join(``);
 
@@ -185,18 +185,21 @@ function salvarExpressao(char) {
                 } else {
                     limitadorAns = ``;
                     console.log(`Operadores duplicados e seguidos!`);
+                    console.log(`expressao: ${expressao}`);
                     let novoOperador = expressao.split(``).pop();
                     expressao = expressao.split(``);
                     expressao.pop();
                     expressao.pop();
                     expressao = expressao.join(``);
                     expressao = expressao.concat(novoOperador);
+                    console.log(`expressao: ${expressao}`);
                     return exibirDisplay(expressao, `orange`, false);
                 }
             }
         }
+        console.log(`char: ${char} | expressao: ${expressao}`);
         exibirDisplay(char, `orange`, true);
-        console.log(`char: ${char} | expressao: ${expressao}`)
+        console.log(`char: ${char} | expressao: ${expressao}`);
         console.log(`- - - - - Saindo do salvarExpressao - - - - -`);
     }
 }
@@ -207,7 +210,7 @@ function separarExpressao() {
     // Acha o operador da expressão
     console.log(`expressao: ${expressao}`);
     let expressaoSplit = expressao.split(``);
-    
+
     // Pegar operador
     temOperador(expressao)[1];
 
