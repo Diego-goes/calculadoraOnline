@@ -89,7 +89,7 @@ function temOperador(string) {
 function salvarExpressao(char) {
 
     // Caso um novo numero seja digitado, e o display exiba 0, o novo numero vai substituir o 0.
-    if (expressao == `0` && temOperador(char) && char != `,`) {
+    if (expressao == `0` && temOperador(char) == false && char != `,`) {
         exibirDisplay(``, `orange`, false);
         expressao = ``;
     }
@@ -199,7 +199,7 @@ function limpar() {
     resultado = expressao;
     exibirDisplay(expressao);
     loadCalc();
-    console.clear();
+    // console.clear();
 }
 function calcular() {
     // Parte que calcula
@@ -224,7 +224,7 @@ function calcular() {
                 resultado = ((n1 / 100) * n2);
             }
     }
-    
+
     // Formatar saída de nº decimais
     resultado = arredondar(Number(resultado)).toString();
     expressao = resultado;
