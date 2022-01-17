@@ -17,17 +17,17 @@ let resultado = ``;
 let limitadorAns = ``;
 let operadores = [`÷`, `×`, `-`, `+`];
 
-// function exibirErro(msg, fontSize) {
-//     let pDisplay = document.getElementById(`pDisplay`);
-//         pDisplay.style.fontSize = `${fontSize}`;
-//         pDisplay.style.textAlign = `center`;
-//         exibirDisplay(`${msg}`, `white`, false);
-//         setTimeout(() => {
-//             pDisplay.style.fontSize = `45pt`;
-//             pDisplay.style.textAlign = `right`;
-//             limpar();
-//         }, 1000);
-// }
+function exibirErro(msg, fontSize) {
+    let pDisplay = document.getElementById(`pDisplay`);
+        pDisplay.style.fontSize = `${fontSize}`;
+        pDisplay.style.textAlign = `center`;
+        exibirDisplay(`${msg}`, `white`, false);
+        setTimeout(() => {
+            pDisplay.style.fontSize = `45pt`;
+            pDisplay.style.textAlign = `right`;
+            limpar();
+        }, 1000);
+}
 function acessoMobile() {
     if (navigator.userAgent.match(/Android/i)
         || navigator.userAgent.match(/webOS/i)
@@ -287,17 +287,7 @@ function porcentagem() {
     // Valida se o valor é valido (apenas 1 numero), para efetuar a operação
     if (numero == 'NaN') {
         // Exibe uma mensagem de erro no display durante 1 segundo.
-        let pDisplay = document.getElementById(`pDisplay`);
-        pDisplay.style.fontSize = `32pt`;
-        pDisplay.style.textAlign = `center`;
-        exibirDisplay(`Erro!`, `white`, false);
-
-        // Volta ao valor original do display
-        setTimeout(() => {
-            pDisplay.style.fontSize = `45pt`;
-            pDisplay.style.textAlign = `right`;
-            exibirDisplay(expressao, `orange`, false);
-        }, 1000)
+        exibirErro(`Calculo inválido!`,`32pt`);
     } else {
         numero = numero.toString().replace(`.`, `,`);
         expressao = numero;
@@ -356,15 +346,6 @@ function calcular() {
     console.log(`Resultado: ${resultado}`);
     // Parte de exibição
     if (resultado == 'NaN') {
-        // let pDisplay = document.getElementById(`pDisplay`);
-        // pDisplay.style.fontSize = `32pt`;
-        // pDisplay.style.textAlign = `center`;
-        // exibirDisplay(`Calculo inválido!`, `white`, false);
-        // setTimeout(() => {
-        //     pDisplay.style.fontSize = `45pt`;
-        //     pDisplay.style.textAlign = `right`;
-        //     limpar();
-        // }, 1000);
         exibirErro(`Calculo inválido!`,`32pt`)
     } else {
         exibirDisplay(`${expressao}`, `white`, false);
