@@ -2,7 +2,7 @@ let expressao = `0`;
 let n1 = ``;
 let operador;
 let n2 = ``;
-let resultado = ``;
+let resultado = `0`;
 
 function exibirErro(msg, fontSize) {
     let pDisplay = document.getElementById(`pDisplay`);
@@ -87,84 +87,91 @@ function temOperador(string) {
 }
 
 function salvarExpressao(char) {
-
-    // Caso um novo numero seja digitado, e o display exiba 0, o novo numero vai substituir o 0.
-    if (expressao == `0` && temOperador(char) == false && char != `,`) {
-        exibirDisplay(``, `orange`, false);
-        expressao = ``;
-    }
+    console.log(`- - - - - Entrando em salvarExpressao - - - - -`);
 
     // Parte que salva a operação
+    console.log(`expressao: ${expressao}`);
     expressao += char;
+    console.log(`expressao: ${expressao}`);
+
+    // Caso um novo numero seja digitado, e o display exiba 0, o novo numero vai substituir o 0.
+    if (expressao.startsWith(`0`) && expressao[1] != `÷` && expressao[1] != `×` && expressao[1] != `+` && expressao[1] != `%` && char != `,` && expressao.length < 4) {
+        exibirDisplay(``, `orange`, false);
+        //expressao[0] == `0` && expressao[1] == '-' ? expressao = `-${char}`  : expressao = `${char}`;
+        if(expressao[0] == `0` && expressao[1] == '-' && char != `-`){
+            expressao = `-${char}`;
+            return exibirDisplay(`-${char}`, `orange`, false);
+        } else {
+            expressao = `${char}`;
+        }
+    }
 
     // Achar o operador
     operador = temOperador(expressao)[1];
 
+    console.log(`expressao: ${expressao} | resultado: ${resultado}`);
     // Se o resultado não tem operador, e for diferente de ``, substituí-lo pela nova expressao.
-    if (temOperador(expressao)[0] == false && resultado != `` && expressao[1] != `,`) {
+    if (temOperador(expressao)[0] == false && expressao[0] == `-` && resultado != `0` && expressao[1] != `,`) {
         expressao = `${char}`;
         resultado = ``;
         exibirDisplay(``);
     }
+    console.log(`expressao: ${expressao}`);
 
-    // Validar expressão quando o primeiro char for um número.
-    if (temOperador(expressao[0])[0] && expressao[0] != `-`) {
-        expressao = ``;
+    // Verificar calculo ANS, que seria o de multiplos operadores em uma unica expressao.
+    if (temOperador(char)[0] == false) {
+        exibirDisplay(char, `orange`, true);
     } else {
-        // Verificar calculo ANS, que seria o de multiplos operadores em uma unica expressao.
-        if (temOperador(char)[0] == false) {
-            exibirDisplay(char, `orange`, true);
+        // Indentifica todos os operadores da expressão matemática e salva em limitadaorAns
+        let limitadorAns = ``;
+        let operadores = [`÷`, `×`, `-`, `+`, `%`];
+        for (let j in operadores) {
+            limitadorAns += expressao.split(``).filter((charExpressao) => {
+                if (charExpressao == operadores[j]) {
+                    return operadores[j];
+                }
+            });
+        }
+
+        // Corrigir a vírgula que conta como espaço em length
+        limitadorAns = limitadorAns.split(`,`).join(``);
+
+        // Le a quantidade de operadores no limitador, caso tenha mais de 1, ele efetua o calculo Ans.
+        // Caso o n1 seja negativo, é nescessário no mínimo 3 operadores para realizar o calculo Ans.
+        let limite;
+        expressao.startsWith(`-`) ? limite = 3 : limite = 2;
+        if (limitadorAns.length < limite) {
+            exibirDisplay(expressao, `orange`, false);
         } else {
-            // Indentifica todos os operadores da expressão matemática e salva em limitadaorAns
-            let limitadorAns = ``;
-            let operadores = [`÷`, `×`, `-`, `+`, `%`];
-            for (let j in operadores) {
-                limitadorAns += expressao.split(``).filter((charExpressao) => {
-                    if (charExpressao == operadores[j]) {
-                        return operadores[j];
-                    }
-                });
+            // Limpar o limitador para a próxima expressao
+            limitadorAns = ``;
+
+            // Verificar se os 2 operadores são seguidos
+            operador = temOperador(expressao)[1];
+            if (temOperador(expressao[expressao.indexOf(operador) + 1])[0] == false) {
+
+                // Efetuar a primeira expressão sem o 2º operador.
+                let operador2 = expressao.split(``).pop();
+                expressao = expressao.substring(0, expressao.length - 1);
+                calcular();
+
+                // Adicionar a expressão o resultado com o 2º operador.
+                expressao = expressao.concat(operador2);
             }
-
-            // Corrigir a vírgula que conta como espaço em length
-            limitadorAns = limitadorAns.split(`,`).join(``);
-
-            // Le a quantidade de operadores no limitador, caso tenha mais de 1, ele efetua o calculo Ans.
-            // Caso o n1 seja negativo, é nescessário no mínimo 3 operadores para realizar o calculo Ans.
-            let limite;
-            expressao.startsWith(`-`) ? limite = 3 : limite = 2;
-            console.log(`expressao: ${expressao}`);
-            if (limitadorAns.length < limite) {
-                exibirDisplay(expressao, `orange`, false);
-            } else {
-                // Limpar o limitador para a próxima expressao
-                limitadorAns = ``;
-
-                // Verificar se os 2 operadores são seguidos
-                operador = temOperador(expressao)[1];
-                if (temOperador(expressao[expressao.indexOf(operador) + 1])[0] == false) {
-
-                    // Efetuar a primeira expressão sem o 2º operador.
-                    let operador2 = expressao.split(``).pop();
-                    expressao = expressao.substring(0, expressao.length - 1);
-                    calcular();
-
-                    // Adicionar a expressão o resultado com o 2º operador.
-                    expressao = expressao.concat(operador2);
-                }
-                else {
-                    // Como são operadores seguidos, o ultimo substitui o primeiro.
-                    let novoOperador = expressao.split(``).pop();
-                    expressao = expressao.split(``);
-                    expressao.pop();
-                    expressao.pop();
-                    expressao = expressao.join(``);
-                    expressao = expressao.concat(novoOperador);
-                }
-                exibirDisplay(expressao, `orange`, false);
+            else {
+                // Como são operadores seguidos, o ultimo substitui o primeiro.
+                let novoOperador = expressao.split(``).pop();
+                expressao = expressao.split(``);
+                expressao.pop();
+                expressao.pop();
+                expressao = expressao.join(``);
+                expressao = expressao.concat(novoOperador);
             }
+            exibirDisplay(expressao, `orange`, false);
         }
     }
+
+    console.log(`expressao: ${expressao}`);
 }
 function separarExpressao() {
     // Pegar operador
@@ -199,7 +206,7 @@ function limpar() {
     resultado = expressao;
     exibirDisplay(expressao);
     loadCalc();
-    // console.clear();
+    console.clear();
 }
 function calcular() {
     // Parte que calcula
