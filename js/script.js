@@ -9,7 +9,7 @@
 // - - - - - Criar um 'ans' quando um 2º operador for pressionado - - - - - //
 
 
-let expressao = ``;
+let expressao = `0`;
 let n1 = ``;
 let operador;
 let n2 = ``;
