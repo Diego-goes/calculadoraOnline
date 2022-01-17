@@ -19,14 +19,14 @@ let operadores = [`÷`, `×`, `-`, `+`];
 
 function exibirErro(msg, fontSize) {
     let pDisplay = document.getElementById(`pDisplay`);
-        pDisplay.style.fontSize = `${fontSize}`;
-        pDisplay.style.textAlign = `center`;
-        exibirDisplay(`${msg}`, `white`, false);
-        setTimeout(() => {
-            pDisplay.style.fontSize = `45pt`;
-            pDisplay.style.textAlign = `right`;
-            limpar();
-        }, 1000);
+    pDisplay.style.fontSize = `${fontSize}`;
+    pDisplay.style.textAlign = `center`;
+    exibirDisplay(`${msg}`, `white`, false);
+    setTimeout(() => {
+        pDisplay.style.fontSize = `45pt`;
+        pDisplay.style.textAlign = `right`;
+        limpar();
+    }, 1000);
 }
 function acessoMobile() {
     if (navigator.userAgent.match(/Android/i)
@@ -66,7 +66,7 @@ function arredondar(num) {
 }
 // Verifíca se um array tem um operador e qual é.
 function temOperador(string) {
-    let operadores = [`÷`, `×`, `-`, `+`];
+    let operadores = [`÷`, `×`, `-`, `+`, `%`];
     let validacao = false;
     let op;
 
@@ -108,12 +108,10 @@ function salvarExpressao(char) {
     // Criar operacao de keypress
 
     // Faz a formatação do input
-    console.log(`expressao: ${expressao}`);
     if (expressao == `0` && temOperador(char) && char != `,`) {
         exibirDisplay(``, `orange`, false);
         expressao = ``;
     }
-    console.log(`expressao: ${expressao}`);
 
     // Parte que salva a operação
     console.log(`expressao: ${expressao}`);
@@ -140,7 +138,6 @@ function salvarExpressao(char) {
     } else {
         // Verificar calculo ANS, que seria o de multiplos operadores em uma unica expressao.
         if (temOperador(char)[0]) {
-            console.log(`limitadorAns: ${limitadorAns} | length: ${limitadorAns.length}`);
             // Indentifica todos os operadores da expressão matemática e salva em limitadaorAns
             limitadorAns = ``;
             for (let j in operadores) {
@@ -152,38 +149,22 @@ function salvarExpressao(char) {
             }
 
             // Corrigir a vírgula que contava como espaço em length
-            console.log(`limitadorAns: ${limitadorAns} | length: ${limitadorAns.length}`);
             limitadorAns = limitadorAns.split(`,`).join(``);
-            console.log(`limitadorAns: ${limitadorAns} | length: ${limitadorAns.length}`);
 
             // Le a quantidade de operadores no limitador, caso tenha mais de 1, ele efetua o calculo Ans.
             let limite;
             expressao.startsWith(`-`) ? limite = 3 : limite = 2;
-            console.log(`limitadorAns.length: ${limitadorAns.length} | limite: ${limite}`);
-            console.log(`expressao: ${expressao}`);
             if (limitadorAns.length >= limite) {
                 // Se o caractere seguinte do operador for outro operador, retornar erro.
-                console.log(`Pegando operador!`);
                 operador = temOperador(expressao)[1];
-                console.log(`expressao: ${expressao}`);
-                console.log(`operador: ${operador}`);
-                console.log(`expressao.indexOf(operador): ${expressao.indexOf(operador)}`);
-                console.log(`expressao.indexOf(operador) + 1: ${expressao.indexOf(operador) + 1}`);
-                console.log(`expressao[expressao.indexOf(operador) + 1]: ${expressao[expressao.indexOf(operador) + 1]}`);
-                console.log(`temOperador(expressao[expressao.indexOf(operador) + 1])[0]: ${temOperador(expressao[expressao.indexOf(operador) + 1])[0]}`);
-                console.log(`operador: ${operador}`);
                 if (!temOperador(expressao[expressao.indexOf(operador) + 1])[0]) {
-                    console.log(`nº operadores: ${limitadorAns.length} | ans: ${limitadorAns}`);
 
                     // Limpar o limitador para a próxima expressao
                     limitadorAns = ``
-                    console.log(`expressao: ${expressao}`);
                     if (expressao.startsWith(`-`)) {
                         // Efetuar a primeira expressão sem o 2º operador.
                         let operador2 = expressao.split(``).pop();
-                        console.log(`expressao: ${expressao}`);
                         expressao = expressao.substring(0, expressao.length - 1);
-                        console.log(`expressao: ${expressao}`);
 
                         // Adicionar a expressão o resultado com o 2º operador.
                         console.log(`HORA DE CALCULAR!`);
@@ -205,16 +186,11 @@ function salvarExpressao(char) {
                     limitadorAns = ``;
                     console.log(`Operadores duplicados e seguidos!`);
                     let novoOperador = expressao.split(``).pop();
-                    console.log(`expressao: ${expressao}`);
                     expressao = expressao.split(``);
-                    console.log(`expressao: ${expressao}`);
                     expressao.pop();
                     expressao.pop();
-                    console.log(`expressao: ${expressao}`);
                     expressao = expressao.join(``);
-                    console.log(`expressao: ${expressao}`);
                     expressao = expressao.concat(novoOperador);
-                    console.log(`expressao: ${expressao} | novoOperador: ${novoOperador}`);
                     return exibirDisplay(expressao, `orange`, false);
                 }
             }
@@ -231,17 +207,9 @@ function separarExpressao() {
     // Acha o operador da expressão
     console.log(`expressao: ${expressao}`);
     let expressaoSplit = expressao.split(``);
-    // caso o primeiro nº seja negativo, ele se torna positivo para achar o próximo operador.
-    if (expressao.startsWith(`-`)) {
-        expressaoSplit.shift();
-    }
-    operador = expressaoSplit.find((char) => {
-        for (let i in operadores) {
-            if (char == operadores[i]) {
-                return operadores[i];
-            }
-        }
-    });
+    
+    // Pegar operador
+    temOperador(expressao)[1];
 
     // Achar o n1 e n2
     for (let i in expressao) {
@@ -280,24 +248,24 @@ function mudarSinal() {
     expressao = expressao.replace(`.`, `,`);
     exibirDisplay(expressao, `orange`, false);
 }
-function porcentagem() {
-    // Formata, faz o calculo de um numero divido por cem, e salva em 'numero'.
-    let numero = (Number(expressao.replace(`,`, `.`)) / 100).toString();
+// function porcentagem() {
+//     // Formata, faz o calculo de um numero divido por cem, e salva em 'numero'.
+//     let numero = (Number(expressao.replace(`,`, `.`)) / 100).toString();
 
-    // Valida se o valor é valido (apenas 1 numero), para efetuar a operação
-    if (numero == 'NaN') {
-        // Exibe uma mensagem de erro no display durante 1 segundo.
-        exibirErro(`Calculo inválido!`,`32pt`);
-    } else {
-        numero = numero.toString().replace(`.`, `,`);
-        expressao = numero;
-        resultado = expressao;
-        exibirDisplay(resultado, `orange`, false);
-    }
-    console.log(`expressao: ${expressao}`);
-    console.log(`resultado: ${resultado}`);
-    console.log(`operador: ${operador}`)
-}
+//     // Valida se o valor é valido (apenas 1 numero), para efetuar a operação
+//     if (numero == 'NaN') {
+//         // Exibe uma mensagem de erro no display durante 1 segundo.
+//         exibirErro(`Calculo inválido!`, `32pt`);
+//     } else {
+//         numero = numero.toString().replace(`.`, `,`);
+//         expressao = numero;
+//         resultado = expressao;
+//         exibirDisplay(resultado, `orange`, false);
+//     }
+//     console.log(`expressao: ${expressao}`);
+//     console.log(`resultado: ${resultado}`);
+//     console.log(`operador: ${operador}`)
+// }
 function limpar() {
     expressao = `0`;
     exibirDisplay(expressao);
@@ -331,6 +299,12 @@ function calcular() {
             resultado = (n1 + n2);
             console.log(`resultado = (n1 + n2) | ${resultado} = (${n1} + ${n2})`)
             break;
+        case `%`:
+            if (n2 == 0) {
+                resultado = (n1 / 100);
+            } else {
+                resultado = ((n1 / 100) * n2);
+            }
     }
     console.log(`Expressao: ${expressao}`);
     console.log(`Resultado: ${resultado}`);
@@ -346,7 +320,7 @@ function calcular() {
     console.log(`Resultado: ${resultado}`);
     // Parte de exibição
     if (resultado == 'NaN') {
-        exibirErro(`Calculo inválido!`,`32pt`)
+        exibirErro(`Calculo inválido!`, `32pt`)
     } else {
         exibirDisplay(`${expressao}`, `white`, false);
     }
