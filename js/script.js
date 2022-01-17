@@ -139,7 +139,7 @@ function salvarExpressao(char) {
         if (temOperador(char)[0]) {
             // Indentifica todos os operadores da expressão matemática e salva em limitadaorAns
             limitadorAns = ``;
-            let operadores = [`÷`, `×`, `-`, `+`,`%`];
+            let operadores = [`÷`, `×`, `-`, `+`, `%`];
             for (let j in operadores) {
                 limitadorAns += expressao.split(``).filter((charExpressao) => {
                     if (charExpressao == operadores[j]) {
@@ -208,20 +208,24 @@ function separarExpressao() {
     // pDisplay = document.getElementById(`pDisplay`);
     // expressao = pDisplay.value;
     // Acha o operador da expressão
-    console.log(`expressao: ${expressao}`);
-    let expressaoSplit = expressao.split(``);
 
     // Pegar operador
-    temOperador(expressao)[1];
+    operador = temOperador(expressao)[1];
 
     // Achar o n1 e n2
+    console.log(`expressao: ${expressao}`);
     for (let i in expressao) {
+        console.log(`i: ${i}`);
+        console.log(`indexOf(operador): ${expressao.indexOf(operador, 1)}`);
         if (i < expressao.indexOf(operador, 1)) {
+            console.log(`expressao[${i}]: ${expressao[i]} | É n1? ${i < expressao.indexOf(operador, 1)}`);
             n1 += expressao[i];
         } else if (i > expressao.indexOf(operador, 1)) {
+            console.log(`expressao[${i}]: ${expressao[i]} | É n2? ${i > expressao.indexOf(operador, 1)}`);
             n2 += expressao[i];
         }
     }
+    console.log(`n1: ${n1} | n2: ${n2}`);
 
     // Corrigir formato de decimais para efetuar as operações.
     if (n1.toString().indexOf(`,`) != -1) {
@@ -303,6 +307,7 @@ function calcular() {
             console.log(`resultado = (n1 + n2) | ${resultado} = (${n1} + ${n2})`)
             break;
         case `%`:
+            console.log(`n1: ${n1} | n2: ${n2}`);
             if (n2 == 0) {
                 resultado = (n1 / 100);
             } else {
@@ -323,7 +328,7 @@ function calcular() {
     console.log(`Resultado: ${resultado}`);
     // Parte de exibição
     if (resultado == 'NaN') {
-        exibirErro(`Calculo inválido!`, `32pt`)
+        //exibirErro(`Calculo inválido!`, `32pt`)
     } else {
         exibirDisplay(`${expressao}`, `white`, false);
     }
