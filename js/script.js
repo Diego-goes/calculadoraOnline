@@ -108,10 +108,12 @@ function salvarExpressao(char) {
     // Criar operacao de keypress
 
     // Faz a formatação do input
-    if (expressao == `0` && temOperador(char)) {
+    console.log(`expressao: ${expressao}`);
+    if (expressao == `0` && temOperador(char) && char != `,`) {
         exibirDisplay(``, `orange`, false);
         expressao = ``;
     }
+    console.log(`expressao: ${expressao}`);
 
     // Parte que salva a operação
     console.log(`expressao: ${expressao}`);
