@@ -94,12 +94,18 @@ function salvarExpressao(char) {
     // Caso um novo numero seja digitado, e o display exiba 0, o novo numero vai substituir o 0.
     if (expressao.startsWith(`0`) && expressao[1] != `÷` && expressao[1] != `×` && expressao[1] != `+` && expressao[1] != `%` && char != `,` && expressao[1] != `,` && expressao.length < 4) {
         exibirDisplay(``, `orange`, false);
-        //expressao[0] == `0` && expressao[1] == '-' ? expressao = `-${char}`  : expressao = `${char}`;
+        console.log(`expressao: ${expressao}`);
         if (expressao[0] == `0` && expressao[1] == '-' && char != `-`) {
             expressao = `-${char}`;
+            console.log(`expressao: ${expressao}`);
             return exibirDisplay(`-${char}`, `orange`, false);
         } else {
-            expressao = `${char}`;
+            if(temOperador(char)[0]){
+                expressao += `${char}`;
+            } else {
+                expressao = `${char}`;
+            }
+            console.log(`expressao: ${expressao}`);
         }
     } else {
         // Parte que salva a operação
@@ -170,35 +176,20 @@ function salvarExpressao(char) {
                 let novoOperador2 = expressaoSplit.pop();
                 let novoOperador1 = expressaoSplit.pop();
                 let novoOperador0 = expressaoSplit.pop();
-                console.log(`expressao: ${expressao}`);
-                console.log(`novoOperador0: ${novoOperador0}`);
-                console.log(`novoOperador1: ${novoOperador1}`);
-                console.log(`novoOperador1 != '+': ${novoOperador1 != '+'}`);
-                console.log(`novoOperador2: ${novoOperador2}`);
-                console.log(`novoOperador2 == '-': ${novoOperador2 == '-'}`);
                 // Como são operadores seguidos, o ultimo substitui o primeiro, com excessões:
                 // Caso o segundo operador seja um sinal de menos, e o seu antecessor não seja uma adição, 
                 // manter os operadores seguidos.
-                console.log(`checou até aqui!`);
                 if ((novoOperador1 != `+` && novoOperador2 == `-`) == false) {
-                    console.log(`checou até aqui!`);
                     if (temOperador(novoOperador0)[0] == true) {
-                        console.log(`checou até aqui!`);
                         if (novoOperador2 != `+`) {
-                            console.log(`expressao: ${expressao}`);
                             expressao = expressao.slice(0, expressao.indexOf(temOperador(expressao)[1]));
-                            console.log(`expressao: ${expressao}`);
                             expressao = expressao.concat(novoOperador2, novoOperador1);
-                            console.log(`expressao: ${expressao}`);
                         } else {
-                            console.log(`expressao: ${expressao}`);
                             expressao = expressao.split(``);
                             expressao.pop();
                             expressao = expressao.join(``);
-                            console.log(`expressao: ${expressao}`);
                         }
                     } else {
-                        console.log(`expressao: ${expressao}`);
                         expressao = expressao.split(``);
                         expressao.pop();
                         expressao.pop();
