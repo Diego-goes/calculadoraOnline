@@ -116,17 +116,15 @@ function salvarExpressao(char) {
 
 
 
-    // Achar o operador
-    operador = temOperador(expressao)[1];
 
-    console.log(`expressao: ${expressao} | resultado: ${resultado}`);
-    // Se o resultado não tem operador, e for diferente de ``, substituí-lo pela nova expressao.
-    if (temOperador(expressao)[0] == false && expressao[0] == `-` && resultado != `0` && expressao[1] != `,`) {
-        expressao = `${char}`;
-        resultado = ``;
-        exibirDisplay(``);
-    }
-    console.log(`expressao: ${expressao}`);
+    // console.log(`expressao: ${expressao} | resultado: ${resultado}`);
+    // // Se o resultado não tem operador, e for diferente de ``, substituí-lo pela nova expressao.
+    // if (temOperador(expressao)[0] == false && expressao[0] == `-` && resultado != `0` && expressao[1] != `,`) {
+    //     expressao = `${char}`;
+    //     resultado = ``;
+    //     exibirDisplay(``);
+    // }
+    // console.log(`expressao: ${expressao}`);
 
     // Verificar calculo ANS, que seria o de multiplos operadores em uma unica expressao.
     if (temOperador(char)[0] == false) {
