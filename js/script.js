@@ -89,22 +89,26 @@ function temOperador(string) {
 function salvarExpressao(char) {
     console.log(`- - - - - Entrando em salvarExpressao - - - - -`);
 
-    // Parte que salva a operação
-    console.log(`expressao: ${expressao}`);
-    expressao += char;
-    console.log(`expressao: ${expressao}`);
+
 
     // Caso um novo numero seja digitado, e o display exiba 0, o novo numero vai substituir o 0.
     if (expressao.startsWith(`0`) && expressao[1] != `÷` && expressao[1] != `×` && expressao[1] != `+` && expressao[1] != `%` && char != `,` && expressao.length < 4) {
         exibirDisplay(``, `orange`, false);
         //expressao[0] == `0` && expressao[1] == '-' ? expressao = `-${char}`  : expressao = `${char}`;
-        if(expressao[0] == `0` && expressao[1] == '-' && char != `-`){
+        if (expressao[0] == `0` && expressao[1] == '-' && char != `-`) {
             expressao = `-${char}`;
             return exibirDisplay(`-${char}`, `orange`, false);
         } else {
             expressao = `${char}`;
         }
+    } else {
+        // Parte que salva a operação
+        console.log(`expressao: ${expressao}`);
+        expressao += char;
+        console.log(`expressao: ${expressao}`);
     }
+
+
 
     // Achar o operador
     operador = temOperador(expressao)[1];
