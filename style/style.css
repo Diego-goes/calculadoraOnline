@@ -1,117 +1,139 @@
-*{
+* {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-    font-family:  montserrat;
+    font-family: montserrat;
 }
-body{
-    background-image: url("/images/mesa_clara.jpg");
+@import url(/digital-7.ttf);
+body {
+    background-image : url("/images/mesa_clara.jpg");
     background-repeat: no-repeat;
-    background-size: cover;
-    margin: 0px;
+    background-size  : cover;
+    margin           : 0px;
 }
-header{
-    text-align: center;
-    font-size: 25pt;
-    color: white;
-    font-weight: bolder;
+
+header {
+    text-align   : center;
+    font-size    : 25pt;
+    color        : white;
+    font-weight  : bolder;
     margin-bottom: 80px;
-    box-shadow: 0px 15px 5px rgba(0, 0, 0, 0.103),
-    0px 25px 20px rgba(0, 0, 0, 0.541);
-    background-image: linear-gradient(#ffffff00,#a37a4cc4);
-    padding: 10px;
+    box-shadow   : 0px 15px 5px rgba(0, 0, 0, 0.103),
+        0px 25px 20px rgba(0, 0, 0, 0.541);
+    background-image: linear-gradient(#ffffff00, #a37a4cc4);
+    padding         : 10px;
 }
-header h1{
+
+header h1 {
     margin-bottom: 0px;
 }
+
 header hr {
-    border: solid;
+    border    : solid;
     margin-top: 0;
-    width: 800px;
+    width     : 800px;
 }
-#calculadora{
+
+#calculadora {
     background-color: #585858;
-    background-image: linear-gradient(#6d6c6c,#1f1f1f,#0f0f0f);
-    width: 380px;
-    margin: auto;
-    padding: 20px;
-    border-radius: 30px;
-    box-shadow: 5px 15px 10px rgba(0, 0, 0, 0.541),
-    inset 1px 5px 5px #ffffff;
+    background-image: linear-gradient(#6d6c6c, #1f1f1f, #0f0f0f);
+    width           : 380px;
+    margin          : auto;
+    padding         : 20px;
+    border-radius   : 30px;
+    box-shadow      : 5px 15px 10px rgba(0, 0, 0, 0.541),
+        inset 1px 5px 5px #ffffff;
 }
-#display{
-    border-radius: 10px;
-    margin: auto;
-    margin-bottom: 10px;
-    background-image: linear-gradient(#585858,#2f2f2f,#1d1d1d);
-    box-shadow: inset 1px 3px 5px #000000;
-    width: 380px;
-    height: 150px;
+
+#display {
+    border-radius   : 10px;
+    margin          : auto;
+    margin-bottom   : 10px;
+    background-image: linear-gradient(#585858, #2f2f2f, #1d1d1d);
+    box-shadow      : inset 1px 3px 5px #000000;
+    width           : 380px;
+    height          : 150px;
 }
-#display input{
-    padding-top: 40px;
-    width: 373px;
-    height: 105px;
-    border-radius: 10px;
+
+#display input {
+    padding-top     : 40px;
+    width           : 373px;
+    height          : 105px;
+    border-radius   : 10px;
     background-color: rgba(0, 0, 0, 0);
-    font-size: 45pt;
-    text-align: right;
-    color: white;
+    font-size       : 45pt;
+    text-align      : right;
+    color           : white;
+    font-family: 'digital-7';
 }
-::-webkit-input-placeholder{
+
+::-webkit-input-placeholder {
     color: rgb(255, 255, 255);
 }
-#botoes{    
-    border-bottom-right-radius:20px;
-    border-bottom-left-radius:20px;
-    margin: auto;
-    width: 380px;
-    opacity: 100%;
-    padding-bottom: 20px;
+
+#botoes {
+    border-bottom-right-radius: 20px;
+    border-bottom-left-radius : 20px;
+    margin                    : auto;
+    width                     : 380px;
+    opacity                   : 100%;
+    padding-bottom            : 20px;
 }
-#botoes table{
+
+#botoes table {
     margin: auto;
 }
-#botoes input{
-    font-size: 20pt;
-    text-align: center;
-    width: 80px;
-    height: 80px;
+
+.inputBtn{
+    font-size    : 20pt;
+    text-align   : center;
+    width        : 80px;
+    height       : 80px;
     border-radius: 100%;
-    margin: 5px;
-    box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.250);
-    cursor: pointer;
-    transition: border 0.7s;
+    margin       : 5px;
+    box-shadow   : 5px 5px 5px rgba(0, 0, 0, 0.250);
+    cursor       : pointer;
+    transition   : border 0.7s;
 }
-#botoes input:hover{
+#numZeroBtn {
+    width: 170px;
+    border-radius: 30px;
+}
+#botoes input:hover {
     content: '';
-    border: solid white;
+    border : solid rgb(251, 255, 0);
 }
-.divisao1{
-    background-image: linear-gradient(#bebdbd,#707070,#535353);
+
+.divisao1 {
+    background-image: linear-gradient(#bebdbd, #707070, #535353);
 }
-.divisao2{
-    color: #a5a5a5;
-    background-image: linear-gradient(#8a8a8a,#424242,#3a3939);
+
+.divisao2 {
+    color           : #a5a5a5;
+    background-image: linear-gradient(#8a8a8a, #424242, #3a3939);
 }
-.divisao3{
+
+.divisao3 {
     background-color: #ff9500;
-    background-image: linear-gradient(#ffa21f,#b16700,#a56000);
-    font-size: 28px;
+    background-image: linear-gradient(#ffa21f, #b16700, #a56000);
+    font-size       : 28px;
 }
-footer{
+
+footer {
     background-color: #2424214f;
-    font: italic 15pt monospace;
-    color: #ca7600;
-    text-align: center;
-    width: 350px;
-    margin: auto;
-    border-radius: 10px;
-    padding: 10px;
-    margin-top: 100px;
-    margin-bottom: 100px;
+    font            : italic 15pt monospace;
+    color           : #ca7600;
+    text-align      : center;
+    width           : 350px;
+    margin          : auto;
+    border-radius   : 10px;
+    padding         : 10px;
+    margin-top      : 100px;
+    margin-bottom   : 100px;
 }
+
 footer p {
     margin: 0px;
 }
+
 footer a {
     color: #ff9500;
 }
