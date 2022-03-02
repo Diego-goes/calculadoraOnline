@@ -76,21 +76,17 @@ class CalcController {
             // ler expressao
             for (let i in this._expressao) {
                 // verificar aonde fica o char na expressao
-                if (this._expressao[i] == char) {
-                    // Verificar se antes do char na expressão, tem um operador
-                    let penultimoChar = this._expressao[Number(i) - 1];
-                    if (this.temOperador(penultimoChar)) {
-                        let antiPenultimoChar = this._expressao[Number(i) - 2];
-                        if (penultimoChar == '+') {
-                            this.removerPernultimoChar();
-                        } else if (penultimoChar == '-' && this.temOperador(antiPenultimoChar) == false) {
-                            this.removerPernultimoChar();
-                        } else if (penultimoChar == '-' && this.temOperador(antiPenultimoChar) == true) {
-                            let novaExpressao = this._expressao.slice(0, -1);
-                            this._expressao = novaExpressao;
-                        } else if (char != '-') {
-                            this.removerPernultimoChar();
-                        }
+                // Verificar se antes do char na expressão, tem um operador
+                let penultimoChar = this._expressao[Number(i) - 1];
+                let antiPenultimoChar = this._expressao[Number(i) - 2];
+                if (this._expressao[i] == char && this.temOperador(penultimoChar)) {
+                    if (penultimoChar == '-' && this.temOperador(antiPenultimoChar) == true) {
+                        let novaExpressao = this._expressao.slice(0, -1);
+                        this._expressao = novaExpressao;
+                    } else if (penultimoChar == '+' || penultimoChar == '-') {
+                        this.removerPernultimoChar();
+                    } else if (char != '-') {
+                        this.removerPernultimoChar();
                     }
                 }
             }
