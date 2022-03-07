@@ -6,6 +6,7 @@ class CalcController {
         this._historicoEl = document.querySelector('#pHistorico');
         this._displayEl = document.querySelector('#inputDisplay');
         this._operadoresPossiveis = [`÷`, `×`, `-`, `+`, `%`];
+        this._numerosPossiveis = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0'];
         this.inicializar()
     }
     inicializar() {
@@ -26,11 +27,13 @@ class CalcController {
                     });
                     break;
                 case 'maisMenosBtn':
-                    //evento alterar sinal;
+                    btn.addEventListener('click', () => {
+                        this.mudarSinal();
+                    });
                     break;
-                case 'porcentagemBtn':
-                    //evento porcentagem;
-                    break;
+                // case 'porcentagemBtn':
+                //     //evento porcentagem;
+                //     break;
                 case 'igualBtn':
                     btn.addEventListener('click', () => {
                         this.mostrarResultado();
@@ -54,29 +57,26 @@ class CalcController {
         this.display = msg;
     }
     removerPernultimoChar() {
-        let novoOperador = this._expressao.split(``).pop();
+        let novoChar = this._expressao.split(``).pop();
         let novaExpressao = this._expressao.slice(0, -2);
-        this._expressao = novaExpressao + novoOperador;
+        this._expressao = novaExpressao + novoChar;
     }
-    tornarInterativo(char) {
-        // Se a expressão começar com 0, substituir o 0 pelo digito 
-        this._expressao.toString().startsWith('0') ? this._expressao = char : this._expressao += char;
-
-        // Se antes do operador, tiver uma virgula, remover a virgula
-        if (this.temOperador(char)) {
+    removerUltimoChar() {
+        this._expressao = this._expressao.slice(0, -1);
+    }
+    corrigirVirgulasSeguidas(char) {
+        if (char == ',') {
             for (let i in this._expressao) {
-                let charAnterior = this._expressao[Number(i) - 1];
-                if (this._expressao[i] == char && charAnterior == ',') {
-                    this.removerPernultimoChar();
+                if (this._expressao[i] == ',' && this._expressao[Number(i) + 1] == ',') {
+                    this.removerUltimoChar();
                 }
             }
         }
-        // Se o char digitado for um operador, verifica se existe dois operadores seguidos, e faz uma correção.
+    }
+    corrigirOperadoresSeguidos(char) {
         if (this.temOperador(char)) {
-            // ler expressao
             for (let i in this._expressao) {
-                // verificar aonde fica o char na expressao
-                // Verificar se antes do char na expressão, tem um operador
+                // Se o char digitado for um operador, verifica se existe dois operadores seguidos, e faz uma correção.
                 let penultimoChar = this._expressao[Number(i) - 1];
                 let antiPenultimoChar = this._expressao[Number(i) - 2];
                 if (this._expressao[i] == char && this.temOperador(penultimoChar)) {
@@ -91,6 +91,33 @@ class CalcController {
                 }
             }
         }
+    }
+    corrigirVirgulaAntesOperador(char) {
+        if (this.temOperador(char)) {
+            for (let i in this._expressao) {
+                // Se antes do operador, tiver uma virgula, remover a virgula
+                let charAnterior = this._expressao[Number(i) - 1];
+                if (this._expressao[i] == char && charAnterior == ',') {
+                    this.removerPernultimoChar();
+                }
+            }
+        }
+    }
+    tornarInterativo(char) {
+        // Se a expressão começar com 0, substituir o 0 pelo digito 
+        if (this._expressao.toString().startsWith(`0`) &&
+            char != ',' &&
+            this.temNumero(char) == true &&
+            this._expressao.toString().length < 2) {
+            this._expressao = char;
+        } else {
+            this._expressao += char;
+        }
+        // this._expressao.toString().startsWith('0') ? this._expressao = char : this._expressao += char;
+        this.corrigirVirgulasSeguidas(char);
+        this.corrigirOperadoresSeguidos(char);
+        this.corrigirVirgulaAntesOperador(char);
+
 
         // Se ao final de um calculo, um novo numero for digitado, substituir a expressão pelo numero.
         if (this.temOperador(this._expressao) == false && this._resultado != '') {
@@ -98,9 +125,17 @@ class CalcController {
             this._resultado = '';
         }
     }
+    temNumero(string) {
+        for (let i in string) {
+            if (this._numerosPossiveis.includes(string[i])) {
+                return true;
+            }
+        }
+        return false;
+    }
     temOperador(string) {
         for (let i in string) {
-            if (this._operadoresPossiveis.indexOf(string[i]) != -1) {
+            if (this._operadoresPossiveis.includes(string[i])) {
                 return true;
             }
         }
@@ -122,11 +157,32 @@ class CalcController {
         return string = string.join(`${novoSeparador}`).toString();
     }
     corrigirOperadores() {
-        this._expressao = this._expressao.replace("×", "*");
-        this._expressao = this._expressao.replace("÷", "/");
+        for (let i in this._expressao) {
+            switch (this._expressao[i]) {
+                case "×":
+                    this._expressao = this._expressao.replace("×", "*");
+                    break;
+                case "÷":
+                    this._expressao = this._expressao.replace("÷", "/");
+                    break;
+                case "%":
+                    console.log(`this._expressao: ${this._expressao}`)
+                    this._expressao = this._expressao.replace("%", "*(1/100)");
+                    console.log(`this._expressao: ${this._expressao}`)
+                    break;
+            }
+        }
     }
     arredondar(num) {
         return parseFloat(num.toPrecision(12));
+    }
+    mudarSinal() {
+        if (this._expressao.startsWith('-')) {
+            this._expressao = this._expressao.substring(1)
+        } else {
+            this._expressao = `-${this._expressao}`;
+        }
+        this.atualizarDisplay(this._expressao);
     }
     calcular() {
         this.corrigirOperadores();
@@ -135,7 +191,6 @@ class CalcController {
         this._resultado = this.arredondar(this._resultado);
         this._resultado = this.corrigirSeparadores(',', this._resultado.toString());
         this._expressao = this._resultado;
-        // this._resultado = '';
     }
     get display() {
         return this._displayEl.value;
