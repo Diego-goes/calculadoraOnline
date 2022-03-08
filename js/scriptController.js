@@ -11,6 +11,7 @@ class CalcController {
     }
     inicializar() {
         this.addEventosBtns();
+        this.inicializarKeyboard();
     }
     addEventosBtns() {
         document.querySelectorAll('.inputBtn').forEach((btn) => {
@@ -46,6 +47,19 @@ class CalcController {
                     break;
             }
         });
+    }
+    inicializarKeyboard() {
+        document.addEventListener('keypress', (e) => {
+            this.displayEl.focus();
+            if (this.temNumero(e.key) || this.temOperador(e.key) || e.key == '*' || e.key == '/') {
+                this.salvarExpressao(e.key);
+            } else if (e.key == 'Enter') {
+                // this.mostrarResultado();
+            }
+            this._audioFx.currentTime = 0;
+            this._audioFx.play();
+            console.log(`this._expressao: ${this._expressao} | this.display: ${this.display}`);
+        })
     }
     limparExpressao() {
         console.clear();
@@ -85,7 +99,7 @@ class CalcController {
                         this._expressao = novaExpressao;
                     } else if (penultimoChar == '+' || penultimoChar == '-') {
                         this.removerPernultimoChar();
-                    } else if (char != '-') {
+                    } else if (char != '-' && penultimoChar != '%') {
                         this.removerPernultimoChar();
                     }
                 }
@@ -119,6 +133,7 @@ class CalcController {
         this.corrigirVirgulaAntesOperador(char);
 
 
+
         // Se ao final de um calculo, um novo numero for digitado, substituir a expressão pelo numero.
         if (this.temOperador(this._expressao) == false && this._resultado != '') {
             this._expressao = char;
@@ -141,11 +156,28 @@ class CalcController {
         }
         return false;
     }
+    formatarKey(char) {
+        switch (char) {
+            case "*":
+                console.log(`this._expressao: ${this._expressao} | this.display: ${this.display}`);
+                this._expressao = this._expressao.replace("*", "×");
+                console.log(`this._expressao: ${this._expressao} | this.display: ${this.display}`);
+                break;
+            case "/":
+                this._expressao = this._expressao.replace("/", "÷");
+                break;
+        }
+    }
     salvarExpressao(char) {
         this.tornarInterativo(char);
+        this.formatarKey(char);
+        console.log(`this._expressao: ${this._expressao} | this.display: ${this.display}`);
+        // ERRO
         this.atualizarDisplay(this._expressao);
+        console.log(`this._expressao: ${this._expressao} | this.display: ${this.display}`);
     }
     mostrarResultado() {
+        console.log(`this._expressao: ${this._expressao} | this.display: ${this.display}`);
         this.calcular()
         this.atualizarDisplay(this._expressao);
     }
@@ -157,7 +189,7 @@ class CalcController {
         return string = string.join(`${novoSeparador}`).toString();
     }
     corrigirOperadores() {
-        for (let i in this._expressao) {
+        for (let i = 0; i < this._expressao.length; i++) {
             switch (this._expressao[i]) {
                 case "×":
                     this._expressao = this._expressao.replace("×", "*");
@@ -166,9 +198,11 @@ class CalcController {
                     this._expressao = this._expressao.replace("÷", "/");
                     break;
                 case "%":
-                    console.log(`this._expressao: ${this._expressao}`)
-                    this._expressao = this._expressao.replace("%", "*(1/100)");
-                    console.log(`this._expressao: ${this._expressao}`)
+                    if (this.temNumero(this._expressao[Number(i) + 1]) == true) {
+                        this._expressao = this._expressao.replace("%", "*(1/100)*");
+                    } else {
+                        this._expressao = this._expressao.replace("%", "*(1/100)");
+                    }
                     break;
             }
         }
@@ -194,6 +228,9 @@ class CalcController {
     }
     get display() {
         return this._displayEl.value;
+    }
+    get displayEl() {
+        return this._displayEl;
     }
     set display(vl) {
         return this._displayEl.value = vl;
