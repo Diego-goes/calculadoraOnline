@@ -51,17 +51,19 @@ class CalcController {
     inicializarKeyboard() {
         document.addEventListener('keydown', (e) => {
             this.efeitoAudio();
-            if (this.temNumero(e.key) || this.temOperador(e.key) || e.key == '*' || e.key == '/') {
-                this.salvarExpressao(e.key);
-            } else if (e.key == 'Enter') {
-                this.mostrarResultado();
-            } else if (e.key == 'Delete' || e.key == 'Backspace') {
-                this.backspaceOrDelete();
-            } else {
-                try{
-                    this._audioFx.pause();
-                } catch(e){
-                    console.log(e);
+            if (!e.key.startsWith('F')) {
+                if (this.temNumero(e.key) || this.temOperador(e.key) || e.key == '*' || e.key == '/') {
+                    this.salvarExpressao(e.key);
+                } else if (e.key == 'Enter') {
+                    this.mostrarResultado();
+                } else if (e.key == 'Delete' || e.key == 'Backspace') {
+                    this.backspaceOrDelete();
+                } else {
+                    try {
+                        this._audioFx.pause();
+                    } catch (e) {
+                        console.log(e);
+                    }
                 }
             }
         })
@@ -73,10 +75,10 @@ class CalcController {
         this.atualizarDisplay(this._expressao);
     }
     backspaceOrDelete() {
-        if(this._expressao != '0'){
+        if (this._expressao != '0') {
             this._expressao = this._expressao.slice(0, -1);
         }
-        if(this._expressao.length == 0){
+        if (this._expressao.length == 0) {
             this._expressao = '0'
         }
         this.atualizarDisplay(this._expressao);
