@@ -50,8 +50,8 @@ class CalcController {
     }
     inicializarKeyboard() {
         document.addEventListener('keydown', (e) => {
-            this.efeitoAudio();
             if (!e.key.startsWith('F')) {
+                this.efeitoAudio();
                 if (this.temNumero(e.key) || this.temOperador(e.key) || e.key == '*' || e.key == '/') {
                     this.salvarExpressao(e.key);
                 } else if (e.key == 'Enter') {
