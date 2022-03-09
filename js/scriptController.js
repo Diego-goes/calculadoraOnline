@@ -32,9 +32,6 @@ class CalcController {
                         this.mudarSinal();
                     });
                     break;
-                // case 'porcentagemBtn':
-                //     //evento porcentagem;
-                //     break;
                 case 'igualBtn':
                     btn.addEventListener('click', () => {
                         this.mostrarResultado();
@@ -49,22 +46,26 @@ class CalcController {
         });
     }
     inicializarKeyboard() {
-        document.addEventListener('keypress', (e) => {
-            this.displayEl.focus();
+        document.addEventListener('keydown', (e) => {
+            this._audioFx.currentTime = 0;
+            this._audioFx.play();
             if (this.temNumero(e.key) || this.temOperador(e.key) || e.key == '*' || e.key == '/') {
                 this.salvarExpressao(e.key);
             } else if (e.key == 'Enter') {
-                // this.mostrarResultado();
+                this.mostrarResultado();
+            } else if (e.key == 'Delete' || e.key == 'Backspace') {
+                this.backspaceOrDelete();
             }
-            this._audioFx.currentTime = 0;
-            this._audioFx.play();
-            console.log(`this._expressao: ${this._expressao} | this.display: ${this.display}`);
         })
     }
     limparExpressao() {
         console.clear();
         this._expressao = '0';
         this._resultado = ''
+        this.atualizarDisplay(this._expressao);
+    }
+    backspaceOrDelete(){
+        this._expressao = this._expressao.slice(0,-1);
         this.atualizarDisplay(this._expressao);
     }
     atualizarDisplay(msg) {
@@ -118,15 +119,6 @@ class CalcController {
         }
     }
     tornarInterativo(char) {
-        // Se a expressão começar com 0, substituir o 0 pelo digito 
-        if (this._expressao.toString().startsWith(`0`) &&
-            char != ',' &&
-            this.temNumero(char) == true &&
-            this._expressao.toString().length < 2) {
-            this._expressao = char;
-        } else {
-            this._expressao += char;
-        }
         // this._expressao.toString().startsWith('0') ? this._expressao = char : this._expressao += char;
         this.corrigirVirgulasSeguidas(char);
         this.corrigirOperadoresSeguidos(char);
@@ -169,15 +161,20 @@ class CalcController {
         }
     }
     salvarExpressao(char) {
-        this.tornarInterativo(char);
+        // Se a expressão começar com 0, substituir o 0 pelo digito 
+        if (this._expressao.toString().startsWith(`0`) &&
+            char != ',' &&
+            this.temNumero(char) == true &&
+            this._expressao.toString().length < 2) {
+            this._expressao = char;
+        } else {
+            this._expressao += char;
+        }
         this.formatarKey(char);
-        console.log(`this._expressao: ${this._expressao} | this.display: ${this.display}`);
-        // ERRO
+        this.tornarInterativo(char);
         this.atualizarDisplay(this._expressao);
-        console.log(`this._expressao: ${this._expressao} | this.display: ${this.display}`);
     }
     mostrarResultado() {
-        console.log(`this._expressao: ${this._expressao} | this.display: ${this.display}`);
         this.calcular()
         this.atualizarDisplay(this._expressao);
     }
@@ -218,10 +215,21 @@ class CalcController {
         }
         this.atualizarDisplay(this._expressao);
     }
+    exibirErro() {
+        this.atualizarDisplay(`ERRO!`);
+        setTimeout(() => {
+            this._expressao = `0`;
+            this.atualizarDisplay(`${this._expressao}`);
+        }, 1250);
+    }
     calcular() {
         this.corrigirOperadores();
         this._expressao = this.corrigirSeparadores('.', this._expressao.toString());
-        this._resultado = eval(this._expressao);
+        try {
+            this._resultado = eval(this._expressao);
+        } catch (error) {
+            this.exibirErro();
+        }
         this._resultado = this.arredondar(this._resultado);
         this._resultado = this.corrigirSeparadores(',', this._resultado.toString());
         this._expressao = this._resultado;
