@@ -13,12 +13,15 @@ class CalcController {
         this.addEventosBtns();
         this.inicializarKeyboard();
     }
+    efeitoAudio() {
+        this._audioFx.currentTime = 0;
+        this._audioFx.play();
+    }
     addEventosBtns() {
         document.querySelectorAll('.inputBtn').forEach((btn) => {
             // Adicionando efeito de audio ao clicar
             btn.addEventListener('click', () => {
-                this._audioFx.currentTime = 0;
-                this._audioFx.play();
+                this.efeitoAudio();
             })
             // Demais eventos
             switch (btn.id) {
@@ -47,14 +50,19 @@ class CalcController {
     }
     inicializarKeyboard() {
         document.addEventListener('keydown', (e) => {
-            this._audioFx.currentTime = 0;
-            this._audioFx.play();
+            this.efeitoAudio();
             if (this.temNumero(e.key) || this.temOperador(e.key) || e.key == '*' || e.key == '/') {
                 this.salvarExpressao(e.key);
             } else if (e.key == 'Enter') {
                 this.mostrarResultado();
             } else if (e.key == 'Delete' || e.key == 'Backspace') {
                 this.backspaceOrDelete();
+            } else {
+                try{
+                    this._audioFx.pause();
+                } catch(e){
+                    console.log(e);
+                }
             }
         })
     }
@@ -64,8 +72,8 @@ class CalcController {
         this._resultado = ''
         this.atualizarDisplay(this._expressao);
     }
-    backspaceOrDelete(){
-        this._expressao = this._expressao.slice(0,-1);
+    backspaceOrDelete() {
+        this._expressao = this._expressao.slice(0, -1);
         this.atualizarDisplay(this._expressao);
     }
     atualizarDisplay(msg) {
