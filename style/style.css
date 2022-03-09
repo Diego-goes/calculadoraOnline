@@ -4,7 +4,7 @@
 }
 @import url(/assets/fonts/digital-7.ttf);
 body {
-    background-image : url("/images/mesa_clara.jpg");
+    background-image : url("/assets/images/mesa_clara.jpg");
     background-repeat: no-repeat;
     background-size  : cover;
     margin           : 0px;
