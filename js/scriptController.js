@@ -73,7 +73,12 @@ class CalcController {
         this.atualizarDisplay(this._expressao);
     }
     backspaceOrDelete() {
-        this._expressao = this._expressao.slice(0, -1);
+        if(this._expressao != '0'){
+            this._expressao = this._expressao.slice(0, -1);
+        }
+        if(this._expressao.length == 0){
+            this._expressao = '0'
+        }
         this.atualizarDisplay(this._expressao);
     }
     atualizarDisplay(msg) {
