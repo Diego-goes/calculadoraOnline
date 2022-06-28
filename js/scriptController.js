@@ -1,6 +1,6 @@
 class CalcController {
     constructor() {
-        this._audioFx = new Audio('/assets/audio/click.mp3');
+        this._audioFx = new Audio('../assets/audio/click.mp3');
         this._expressao = '0';
         this._resultado = '';
         this._historicoEl = document.querySelector('#pHistorico');
@@ -71,7 +71,7 @@ class CalcController {
     limparExpressao() {
         console.clear();
         this._expressao = '0';
-        this._resultado = ''
+        this._resultado = '';
         this.atualizarDisplay(this._expressao);
     }
     backspaceOrDelete() {
